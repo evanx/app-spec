@@ -1,11 +1,16 @@
 {
   "name": "app-spec",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Get application configuration from spec of required environment variables.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "@evanxsummers",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evanx/app-spec.git"
+  },
+  "homepage": "https://github.com/evanx/app-spec"
 }
