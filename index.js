@@ -32,10 +32,11 @@ module.exports = (spec, params, options = {}) => Object.keys(spec.required).map(
             } else {
                 props[key] = value;
             }
+        } else if (props[key]) {
         } else if (meta.default !== undefined) {
             props[key] = meta.default;
         } else if (options.required === false) {
-        } else if (!props[key]) {
+        } else {
             const meta = spec.required[key];
             if (meta.required !== false) {
                 throw new Error(`Missing required '${key}'`);
