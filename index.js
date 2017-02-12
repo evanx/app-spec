@@ -2,62 +2,69 @@
 const lodash = require('lodash');
 const clc = require('cli-color');
 
-module.exports = (spec, params, options = {}) => Object.keys(spec.required).map(key => {
-    const meta = spec.required[key];
-    meta.key = key;
-    if (meta.default !== undefined) {
-        if (meta.type === undefined) {
-            if (Number.isInteger(meta.default)) {
-                meta.type = 'integer';
-            }
-            if (meta.example === undefined) {
-                meta.example = meta.default;
-            }
-        }
+module.exports = (spec, params, options = {}) => {
+    if (process.stderr.isTTY) {
+        console.error(formatSpec(spec));
     }
-    return meta;
-}).reduce((props, meta) => {
-    const key = meta.key;
-    try {
-        if (options.debug) {
-            console.log('meta', meta);
-        }
-        if (params[key]) {
-            const value = params[key];
-            if (!value.length) {
-                throw new Error(`Property '${key}' is empty'`);
+    return Object.keys(spec.required).map(key => {
+        const meta = spec.required[key];
+        meta.key = key;
+        if (meta.default !== undefined) {
+            if (meta.type === undefined) {
+                if (Number.isInteger(meta.default)) {
+                    meta.type = 'integer';
+                }
+                if (meta.example === undefined) {
+                    meta.example = meta.default;
+                }
             }
-            if (meta.type === 'integer') {
-                props[key] = parseInt(value);
+        }
+        return meta;
+    }).reduce((props, meta) => {
+        const key = meta.key;
+        try {
+            if (options.debug) {
+                console.log('meta', meta);
+            }
+            if (params[key]) {
+                const value = params[key];
+                if (!value.length) {
+                    throw new Error(`Property '${key}' is empty'`);
+                }
+                if (meta.type === 'integer') {
+                    props[key] = parseInt(value);
+                } else {
+                    props[key] = value;
+                }
+            } else if (props[key]) {
+            } else if (meta.default !== undefined) {
+                props[key] = meta.default;
+            } else if (options.required === false) {
             } else {
-                props[key] = value;
+                const meta = spec.required[key];
+                if (meta.required !== false) {
+                    throw new Error(`Missing required '${key}'`);
+                }
             }
-        } else if (props[key]) {
-        } else if (meta.default !== undefined) {
-            props[key] = meta.default;
-        } else if (options.required === false) {
-        } else {
-            const meta = spec.required[key];
-            if (meta.required !== false) {
-                throw new Error(`Missing required '${key}'`);
-            }
+            return props;
+        } catch (err) {
+            console.error(formatSpec(spec));
+            throw err;
         }
-        return props;
-    } catch (err) {
-        console.log([
-            clc.green.bold(spec.description),
-            clc.white.bold('Options:'),
-            ...Object.keys(spec.required).map(
-                key => spec.required[key]
-            ).map(
-                formatMeta
-            ).map(
-                lines => lines.map(line => `  ${clc.cyan(line)}`).join('\n')
-            )
-        ].join('\n'));
-        throw err;
-    }
-}, options.defaults || {});
+    }, options.defaults || {});
+};
+
+const formatSpec = spec => [
+    clc.green.bold(spec.description),
+    clc.white.bold('Options:'),
+    ...Object.keys(spec.required).map(
+        key => spec.required[key]
+    ).map(
+        formatMeta
+    ).map(
+        lines => lines.map(line => `  ${clc.cyan(line)}`).join('\n')
+    )
+].join('\n');
 
 const formatMeta = meta => {
     let lines = [lodash.capitalize(meta.description.slice(0, 1)) + meta.description.slice(1)];
