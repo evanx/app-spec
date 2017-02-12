@@ -18,7 +18,7 @@ module.exports = (spec, params, options = {}) => {
         }
         return meta;
     });
-    if (process.stderr.isTTY) {
+    if (process.env.mode !== 'quiet') {
         console.error(formatSpec(spec));
     }
     return metas.reduce((props, meta) => {
