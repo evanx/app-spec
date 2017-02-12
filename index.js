@@ -3,10 +3,7 @@ const lodash = require('lodash');
 const clc = require('cli-color');
 
 module.exports = (spec, params, options = {}) => {
-    if (process.stderr.isTTY) {
-        console.error(formatSpec(spec));
-    }
-    return Object.keys(spec.required).map(key => {
+    const metas = Object.keys(spec.required).map(key => {
         const meta = spec.required[key];
         meta.key = key;
         if (meta.default !== undefined) {
@@ -20,7 +17,11 @@ module.exports = (spec, params, options = {}) => {
             }
         }
         return meta;
-    }).reduce((props, meta) => {
+    });
+    if (process.stderr.isTTY) {
+        console.error(formatSpec(spec));
+    }
+    return metas.reduce((props, meta) => {
         const key = meta.key;
         try {
             if (options.debug) {
