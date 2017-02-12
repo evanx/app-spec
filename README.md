@@ -32,4 +32,6 @@ The application archetype uses this library to parse the `config` from `process.
 
 https://github.com/evanx/geo-cache
 
-By https://twitter.com/@evanxsummers
+<hr>
+
+https://twitter.com/@evanxsummers
