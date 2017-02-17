@@ -7,6 +7,9 @@ module.exports = (spec, params, options = {}) => {
         const meta = spec.required[key];
         meta.key = key;
         if (meta.default !== undefined) {
+            if (meta.options && !lodash.includes(meta.options, meta.default)) {
+                meta.options = [meta.default, ...meta.options];
+            }
             if (meta.type === undefined) {
                 if (Number.isInteger(meta.default)) {
                     meta.type = 'integer';
@@ -32,11 +35,14 @@ module.exports = (spec, params, options = {}) => {
                 if (!value.length) {
                     throw new Error(`Property '${key}' is empty'`);
                 }
-                if (meta.type === 'integer') {
-                    props[key] = parseInt(value);
-                } else {
-                    props[key] = value;
+                const parsedValue = (meta.type === 'integer')
+                ? parseInt(value)
+                : value 
+                ;
+                if (meta.options && !lodash.includes(meta.options, parsedValue)) {
+                    throw new Error(`Invalid '${key}'`);
                 }
+                props[key] = parsedValue;
             } else if (props[key]) {
             } else if (meta.default !== undefined) {
                 props[key] = meta.default;
@@ -69,6 +75,9 @@ const formatSpec = spec => [
 
 const formatMeta = meta => {
     let lines = [lodash.capitalize(meta.description.slice(0, 1)) + meta.description.slice(1)];
+    if (meta.options) {
+        lines.push(`Options: ${meta.options.join(', ')}`);
+    }
     if (meta.hint) {
         lines.push(`Hint: ${meta.hint}`);
     }
