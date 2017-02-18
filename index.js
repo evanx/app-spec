@@ -37,7 +37,7 @@ module.exports = (spec, params, options = {}) => {
                 }
                 const parsedValue = (meta.type === 'integer')
                 ? parseInt(value)
-                : value 
+                : value
                 ;
                 if (meta.options && !lodash.includes(meta.options, parsedValue)) {
                     throw new Error(`Invalid '${key}'`);
@@ -55,7 +55,6 @@ module.exports = (spec, params, options = {}) => {
             }
             return props;
         } catch (err) {
-            console.error(formatSpec(spec));
             throw err;
         }
     }, options.defaults || {});
