@@ -37,6 +37,8 @@ module.exports = (spec, params, options = {}) => {
                 }
                 const parsedValue = (meta.type === 'integer')
                 ? parseInt(value)
+                : (meta.elementType === 'string') 
+                ? value.split(',')
                 : value
                 ;
                 if (meta.options && !lodash.includes(meta.options, parsedValue)) {

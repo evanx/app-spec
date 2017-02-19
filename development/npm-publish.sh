@@ -5,6 +5,9 @@ set -u -e
      sed "s/.*'\([0-9].*\)',/\1/"`
   publishedVersion=`npm info | grep latest | 
      sed "s/.*'\([0-9].*\)'.*/\1/"`
+
+set -x
+
   [ "$version" != "$publishedVersion" ]
 
   git add -A
