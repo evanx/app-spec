@@ -1,5 +1,5 @@
 
-set -u -e -x
+set -u -e 
 
   version=`npm version | head -1 |
      sed "s/.*'\([0-9].*\)',/\1/"`
