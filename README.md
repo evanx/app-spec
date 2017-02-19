@@ -30,7 +30,8 @@ The application archetype uses this library to parse the `config` from `process.
 
 ## Used by
 
-https://github.com/evanx/geo-cache
+- https://github.com/evanx/redis-app-rpf
+- https://github.com/evanx/redis-koa-app-rpf
 
 <hr>
 
