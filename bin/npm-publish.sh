@@ -11,7 +11,7 @@ set -x
   [ "$version" != "$publishedVersion" ]
 
   git add -A
-  git commit -m 'publish'
+  git commit -m 'publish' || echo 'commit failed'
   git push
 
   npm publish
