@@ -15,7 +15,7 @@
   "bin": {
      "git-commit": "./bin/git-commit.sh",
      "npm-publish": "./bin/npm-publish.sh",
-     "docker-rebuild": "./bin/docker-rebuild.sh"
+     "docker-rebuild": "./bin/docker-rebuild.sh",
      "docker-redeploy": "./bin/docker-redeploy.sh"
    },
   "homepage": "https://github.com/evanx/app-spec"
