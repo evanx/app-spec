@@ -4,7 +4,7 @@ repo=`cat package.json | jq '.repository.url' | sed 's/"\(.*\)"/\1/'`
 
 echo $name $repo
 
-docker build -t $name https://github.com/evanx/$name.git
+docker build -t $name $repo
 docker rm -f `docker ps -q -f name=$name`
 docker run --name $name -d \
   --network=host \
