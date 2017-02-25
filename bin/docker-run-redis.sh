@@ -3,8 +3,8 @@ set -u -e
 
   [ $# -eq 1 ]
   name="$1"
-  network=${name}-network 
-  docker network ls -q -f name=^$network | grep -vq '\w' && 
+  network="${name}-network"
+  docker network ls -q -f name=^$network | wc -l | grep -q '^0$' && 
     docker network create -d bridge $network
   docker inspect `
     docker run --network=$network --name $name-redis -d redis
