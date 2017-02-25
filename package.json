@@ -1,6 +1,6 @@
 {
   "name": "app-spec",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Get application configuration from spec of required environment variables.",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,9 @@
      "git-commit": "./bin/git-commit.sh",
      "npm-publish": "./bin/npm-publish.sh",
      "docker-rebuild": "./bin/docker-rebuild.sh",
-     "docker-redeploy": "./bin/docker-redeploy.sh"
+     "docker-redeploy": "./bin/docker-redeploy.sh",
+     "docker-rm": "./bin/docker-rm.sh",
+     "docker-network-rm": "./bin/docker-network-rm.sh"
    },
   "homepage": "https://github.com/evanx/app-spec"
 }
