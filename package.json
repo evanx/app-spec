@@ -1,6 +1,6 @@
 {
   "name": "app-spec",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "description": "Get application configuration from spec of required environment variables.",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,8 @@
      "docker-redeploy": "./bin/docker-redeploy.sh",
      "docker-rm": "./bin/docker-rm.sh",
      "docker-network-rm": "./bin/docker-network-rm.sh",
-     "docker-inspect-ip": "./bin/docker-inspect-ip.sh"
+     "docker-inspect-ip": "./bin/docker-inspect-ip.sh",
+     "docker-run-redis": "./bin/docker-run-redis.sh"
    },
   "homepage": "https://github.com/evanx/app-spec"
 }
