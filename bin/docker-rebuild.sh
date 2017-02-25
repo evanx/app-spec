@@ -11,7 +11,10 @@ user=`
   grep ^Username |
   sed 's/^Username: \(.*\)$/\1/'`
 
-echo "$user/$name"
+[ -n "$user" ] 
+[ -n "$name" ] 
+
+echo "$user/$name" 
 
   docker build -t $name https://github.com/evanx/$name.git
   docker tag $name $user/$name
