@@ -95,6 +95,9 @@ const formatMetas = metas => Object.keys(metas).map(
 );
 
 module.exports = (pkg, specf, params, options = {}) => {
+    pkg = Object.assign({}, pkg, {
+        lastName: lodash.last(pkg.split('/'))
+    });
     const spec = Object.assign(
         {defaults: {}},
         lodash.pick(pkg, ['name', 'description']),
