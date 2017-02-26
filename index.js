@@ -96,7 +96,9 @@ module.exports = (pkg, specf, params, options = {}) => {
     spec.env = mapMetas(spec.env);
     spec.defaults = spec.defaults || {};
     if (process.env.mode !== 'quiet') {
-        console.error(formatSpec(spec.description, 'Environment:', spec.env));
+        console.error(clc.green.bold(spec.description));
+        console.error(clc.white.bold('Environment:'));
+        console.error(formatMetas(spec.env).join('\n'));
     }
     const env = reduceMetas(spec.env, process.env, spec.defaults[process.env.NODE_ENV]);
     if (!spec.config) {
@@ -104,5 +106,8 @@ module.exports = (pkg, specf, params, options = {}) => {
     }
     assert(typeof spec.config === 'function', 'spec.config function of env');
     const configMetas = mapMetas(spec.config(env));
+    if (process.env.mode !== 'quiet') {
+        console.error(formatMetas(configMetas).join('\n'));
+    }
     return reduceMetas(configMetas, process.env, env);
 };
