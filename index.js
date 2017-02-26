@@ -97,7 +97,7 @@ module.exports = (pkg, specf, params, options = {}) => {
     spec.defaults = spec.defaults || {};
     if (process.env.mode !== 'quiet') {
         console.error(clc.green.bold(spec.description));
-        console.error(clc.white.bold('Environment:'));
+        console.error(clc.white.bold('Options:'));
         console.error(formatMetas(spec.env).join('\n'));
     }
     const env = reduceMetas(spec.env, process.env, spec.defaults[process.env.NODE_ENV]);
