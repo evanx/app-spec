@@ -3,7 +3,6 @@ console.log(require('../index')({
     name: 'test_name',
     description: 'Test description'
 }, pkg => ({
-    description: pkg.description,
     env: {
         host: {
             description: 'the Redis host',

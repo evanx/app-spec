@@ -85,7 +85,11 @@ const formatMetas = metas => Object.keys(metas).map(
 );
 
 module.exports = (pkg, specf, params, options = {}) => {
-    const spec = specf(pkg);
+    const spec = Object.assign(
+        lodash.pick(pkg, ['name', 'description']), 
+        {repositoryUrl: pkg.repository && pkg.repository.url}, 
+        specf(pkg)
+    );
     assert(process.env.NODE_ENV, 'NODE_ENV');
     assert(spec.env, 'spec.env');
     const formatSpec = (description, heading, metas) => [
