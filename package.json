@@ -1,27 +1,19 @@
 {
   "name": "app-spec",
-  "version": "0.6.16",
+  "version": "0.7.0",
   "description": "Get application configuration from spec of required environment variables.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./bin/test.js"
   },
   "author": "@evanxsummers",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/evanx/app-spec.git"
+    "url": "https://github.com/evanx/app-spec.git"
   },
-  "bin": {
-     "git-commit": "./bin/git-commit.sh",
-     "npm-publish": "./bin/npm-publish.sh",
-     "docker-rebuild": "./bin/docker-rebuild.sh",
-     "docker-redeploy": "./bin/docker-redeploy.sh",
-     "docker-rm": "./bin/docker-rm.sh",
-     "docker-network-rm": "./bin/docker-network-rm.sh",
-     "docker-inspect-ip": "./bin/docker-inspect-ip.sh",
-     "docker-run-redis": "./bin/docker-run-redis.sh",
-     "docker-rm-redis": "./bin/docker-rm-redis.sh"
-   },
-  "homepage": "https://github.com/evanx/app-spec"
+  "homepage": "https://github.com/evanx/app-spec",
+  "dependencies": {
+    "app-bin": "^0.1.1"
+  }
 }
