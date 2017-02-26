@@ -14,7 +14,10 @@ console.log(require('../index')({
         },
         loggerLevel: {
             description: 'the logger level',
-            default: 'info'
+            default1: 'info',
+            defaults: {
+                development: 'verbose'
+            }
         }
     },
     config: env => ({
@@ -25,7 +28,7 @@ console.log(require('../index')({
     }),
     defaults: {
         development: {
-            loggerLevel: 'debug'
+            loggerLevel1: 'debug'
         }
     }
 })));

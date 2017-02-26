@@ -6,6 +6,15 @@ const clc = require('cli-color');
 const mapMetas = metas => Object.keys(metas).map(key => {
     const meta = metas[key];
     meta.key = key;
+    if (meta.defaults) {
+        const envDefault = meta.defaults[process.env.NODE_ENV];
+        if (envDefault) {
+            if (meta.default) {
+                console.error(clc.yellow(`Overriding ${key} to '${envDefault}'`));
+            }
+            meta.default = envDefault;
+        }
+    }
     if (meta.default !== undefined) {
         if (meta.options && !lodash.includes(meta.options, meta.default)) {
             meta.options = [meta.default, ...meta.options];
@@ -39,11 +48,12 @@ const reduceMetas = (metas, params, defaults) => metas.reduce((props, meta) => {
             throw new Error(`Invalid '${key}'`);
         }
         props[key] = parsedValue;
-    } else if (props[key]) {
     } else if (meta.default !== undefined) {
+        if (props[key] !== undefined) {
+            console.error(clc.yellow(`Overriding ${key} to '${meta.default}'`));
+        }
         props[key] = meta.default;
-    } else {
-        const meta = metas[key];
+    } else if (!props[key]) {
         if (meta.required !== false) {
             throw new Error(`Missing required '${key}'`);
         }
@@ -86,25 +96,22 @@ const formatMetas = metas => Object.keys(metas).map(
 
 module.exports = (pkg, specf, params, options = {}) => {
     const spec = Object.assign(
-        lodash.pick(pkg, ['name', 'description']), 
-        {repositoryUrl: pkg.repository && pkg.repository.url}, 
+        {defaults: {}},
+        lodash.pick(pkg, ['name', 'description']),
+        {repositoryUrl: pkg.repository && pkg.repository.url},
         specf(pkg)
     );
+    assert(typeof spec.defaults === 'object', 'spec.defaults object');
     assert(process.env.NODE_ENV, 'NODE_ENV');
     assert(spec.env, 'spec.env');
-    const formatSpec = (description, heading, metas) => [
-        clc.green.bold(description),
-        clc.white.bold(heading),
-        ...formatMetas(metas)
-    ].join('\n');
     spec.env = mapMetas(spec.env);
-    spec.defaults = spec.defaults || {};
     if (process.env.mode !== 'quiet') {
         console.error(clc.green.bold(spec.description));
         console.error(clc.white.bold('Options:'));
         console.error(formatMetas(spec.env).join('\n'));
     }
-    const env = reduceMetas(spec.env, process.env, spec.defaults[process.env.NODE_ENV]);
+    const envDefaults = spec.defaults[process.env.NODE_ENV];
+    const env = reduceMetas(spec.env, process.env, envDefaults);
     if (!spec.config) {
         return env;
     }

@@ -1,6 +1,6 @@
 {
   "name": "app-spec",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "description": "Get application configuration from spec of required environment variables.",
   "main": "index.js",
   "scripts": {
