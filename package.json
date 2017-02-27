@@ -14,6 +14,6 @@
   },
   "homepage": "https://github.com/evanx/app-spec",
   "dependencies": {
-    "app-bin": "^0.1.1"
+    "app-bin": "^0.1.3"
   }
 }
