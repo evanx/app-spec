@@ -10,7 +10,7 @@ const mapMetas = metas => Object.keys(metas).map(key => {
         const envDefault = meta.defaults[process.env.NODE_ENV];
         if (envDefault) {
             if (meta.default) {
-                //console.error(clc.yellow(`Overriding ${key} to '${envDefault}'`));
+                console.error(clc.yellow(`Overriding ${key} to '${envDefault}' for '${process.env.NODE_ENV}'`));
             }
             meta.default = envDefault;
         }
