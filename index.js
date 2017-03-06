@@ -112,6 +112,7 @@ module.exports = (pkg, specf, params, options = {}) => {
         console.error(clc.green.bold(spec.description));
         console.error(clc.white.bold('Options:'));
         console.error(formatMetas(spec.env).join('\n'));
+        console.error();
     }
     const envDefaults = spec.defaults[process.env.NODE_ENV];
     const env = reduceMetas(spec.env, process.env, envDefaults);
