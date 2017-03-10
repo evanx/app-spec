@@ -124,5 +124,12 @@ module.exports = (pkg, specf, params, options = {}) => {
     if (process.env.mode === 'help') {
         console.error(formatMetas(configMetas).join('\n'));
     }
-    return reduceMetas(configMetas, process.env, env);
+    try {
+       return reduceMetas(configMetas, process.env, env);
+    } catch (err) {
+        console.error(clc.green.bold(spec.description));
+        console.error(clc.white.bold('Options:'));
+        console.error(formatMetas(spec.env).join('\n'));
+        throw err;
+    }
 };
