@@ -108,7 +108,7 @@ module.exports = (pkg, specf, params, options = {}) => {
     assert(process.env.NODE_ENV, 'NODE_ENV');
     assert(spec.env, 'spec.env');
     spec.env = mapMetas(spec.env);
-    if (process.env.mode !== 'quiet') {
+    if (process.env.mode === 'help') {
         console.error(clc.green.bold(spec.description));
         console.error(clc.white.bold('Options:'));
         console.error(formatMetas(spec.env).join('\n'));
