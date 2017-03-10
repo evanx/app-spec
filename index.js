@@ -121,7 +121,7 @@ module.exports = (pkg, specf, params, options = {}) => {
     }
     assert(typeof spec.config === 'function', 'spec.config function of env');
     const configMetas = mapMetas(spec.config(env));
-    if (process.env.mode !== 'quiet') {
+    if (process.env.mode === 'help') {
         console.error(formatMetas(configMetas).join('\n'));
     }
     return reduceMetas(configMetas, process.env, env);
