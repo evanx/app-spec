@@ -104,28 +104,28 @@ module.exports = (pkg, specf, params, options = {}) => {
         {repositoryUrl: pkg.repository && pkg.repository.url},
         specf(pkg)
     );
-    assert(typeof spec.defaults === 'object', 'spec.defaults object');
-    assert(process.env.NODE_ENV, 'NODE_ENV');
-    assert(spec.env, 'spec.env');
-    spec.env = mapMetas(spec.env);
-    if (process.env.mode === 'help') {
-        console.error(clc.green.bold(spec.description));
-        console.error(clc.white.bold('Options:'));
-        console.error(formatMetas(spec.env).join('\n'));
-        console.error();
-    }
-    const envDefaults = spec.defaults[process.env.NODE_ENV];
-    const env = reduceMetas(spec.env, process.env, envDefaults);
-    if (!spec.config) {
-        return env;
-    }
-    assert(typeof spec.config === 'function', 'spec.config function of env');
-    const configMetas = mapMetas(spec.config(env));
-    if (process.env.mode === 'help') {
-        console.error(formatMetas(configMetas).join('\n'));
-    }
     try {
-       return reduceMetas(configMetas, process.env, env);
+        assert(typeof spec.defaults === 'object', 'spec.defaults object');
+        assert(process.env.NODE_ENV, 'NODE_ENV');
+        assert(spec.env, 'spec.env');
+        spec.env = mapMetas(spec.env);
+        if (process.env.mode === 'help') {
+            console.error(clc.green.bold(spec.description));
+            console.error(clc.white.bold('Options:'));
+            console.error(formatMetas(spec.env).join('\n'));
+            console.error();
+        }
+        const envDefaults = spec.defaults[process.env.NODE_ENV];
+        const env = reduceMetas(spec.env, process.env, envDefaults);
+        if (!spec.config) {
+            return env;
+        }
+        assert(typeof spec.config === 'function', 'spec.config function of env');
+        const configMetas = mapMetas(spec.config(env));
+        if (process.env.mode === 'help') {
+            console.error(formatMetas(configMetas).join('\n'));
+        }
+        return reduceMetas(configMetas, process.env, env);
     } catch (err) {
         console.error(clc.green.bold(spec.description));
         console.error(clc.white.bold('Options:'));
