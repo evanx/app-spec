@@ -1,11 +1,15 @@
 
 const assert = require('assert');
+const objecta = require('objecta');
 const lodash = require('lodash');
 const clc = require('cli-color');
 
 const mapMetas = metas => Object.keys(metas).map(key => {
     const meta = metas[key];
     meta.key = key;
+    if (objecta.hasFunction(meta, 'requiredEnv')) {
+        objecta.setBoolean(meta, 'required', meta.requiredEnv(process.env));
+    }
     if (meta.defaults) {
         const envDefault = meta.defaults[process.env.NODE_ENV];
         if (envDefault !== undefined) {
