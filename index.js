@@ -118,7 +118,6 @@ module.exports = (pkg, specf, envars, options = {}) => {
         assert(envars.NODE_ENV, 'NODE_ENV');
         assert(spec.env, 'spec.env');
         spec.env = mapMetas(spec.env, envars);
-        console.error('env', spec.env);
         if (envars.mode === 'help') {
             console.error(clc.green.bold(spec.description));
             console.error(clc.white.bold('Options:'));
