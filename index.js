@@ -19,6 +19,11 @@ const mapMetas = metas => Object.keys(metas).map(key => {
             meta.default = envDefault;
         }
     }
+    if (meta.unit) {
+        if (!meta.type) {
+            meta.type = 'integer';
+        }
+    }
     if (meta.default !== undefined) {
         if (meta.options && !lodash.includes(meta.options, meta.default)) {
             meta.options = [meta.default, ...meta.options];
