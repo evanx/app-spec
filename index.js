@@ -4,17 +4,17 @@ const objecta = require('objecta');
 const lodash = require('lodash');
 const clc = require('cli-color');
 
-const mapMetas = metas => Object.keys(metas).map(key => {
+const mapMetas = (metas, env) => Object.keys(metas).map(key => {
     const meta = metas[key];
     meta.key = key;
     if (objecta.hasFunction(meta, 'requiredEnv')) {
-        objecta.setBoolean(meta, 'required', meta.requiredEnv(process.env));
+        objecta.setBoolean(meta, 'required', meta.requiredEnv(env));
     }
     if (meta.defaults) {
-        const envDefault = meta.defaults[process.env.NODE_ENV];
+        const envDefault = meta.defaults[env.NODE_ENV];
         if (envDefault !== undefined) {
             if (meta.default !== undefined) {
-                console.error(clc.yellow(`Overriding ${key} to '${envDefault}' for '${process.env.NODE_ENV}'`));
+                console.error(clc.yellow(`Overriding ${key} to '${envDefault}' for '${env.NODE_ENV}'`));
             }
             meta.default = envDefault;
         }
@@ -103,7 +103,7 @@ const formatMetas = metas => Object.keys(metas).map(
     lines => lines.map(line => `  ${clc.cyan(line)}`).join('\n')
 );
 
-module.exports = (pkg, specf, params, options = {}) => {
+module.exports = (pkg, specf, envars, options = {}) => {
     pkg = Object.assign({}, pkg, {
         lastName: lodash.last(pkg.name.split('/'))
     });
@@ -115,26 +115,27 @@ module.exports = (pkg, specf, params, options = {}) => {
     );
     try {
         assert(typeof spec.defaults === 'object', 'spec.defaults object');
-        assert(process.env.NODE_ENV, 'NODE_ENV');
+        assert(envars.NODE_ENV, 'NODE_ENV');
         assert(spec.env, 'spec.env');
-        spec.env = mapMetas(spec.env);
-        if (process.env.mode === 'help') {
+        spec.env = mapMetas(spec.env, envars);
+        console.error('env', spec.env);
+        if (envars.mode === 'help') {
             console.error(clc.green.bold(spec.description));
             console.error(clc.white.bold('Options:'));
             console.error(formatMetas(spec.env).join('\n'));
             console.error();
         }
-        const envDefaults = spec.defaults[process.env.NODE_ENV];
-        const env = reduceMetas(spec.env, process.env, envDefaults);
+        const envDefaults = spec.defaults[envars.NODE_ENV];
+        const env = reduceMetas(spec.env, envars, envDefaults);
         if (!spec.config) {
             return env;
         }
         assert(typeof spec.config === 'function', 'spec.config function of env');
-        const configMetas = mapMetas(spec.config(env));
-        if (process.env.mode === 'help') {
+        const configMetas = mapMetas(spec.config(env), env);
+        if (env.mode === 'help') {
             console.error(formatMetas(configMetas).join('\n'));
         }
-        return reduceMetas(configMetas, process.env, env);
+        return reduceMetas(configMetas, env, env);
     } catch (err) {
         console.error(clc.green.bold(spec.description));
         console.error(clc.white.bold('Options:'));

@@ -1,6 +1,6 @@
 {
   "name": "app-spec",
-  "version": "0.11.3",
+  "version": "0.11.4",
   "description": "Get application configuration from spec of required environment variables.",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,6 @@
   },
   "homepage": "https://github.com/evanx/app-spec",
   "dependencies": {
-    "objecta": "^0.1.2"
+    "objecta": "^0.1.4"
   }
 }
